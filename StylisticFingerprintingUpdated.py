@@ -3217,14 +3217,19 @@ def CheckForNonStandardConstructs(filename, clean_lines, linenum,
     # collapse arguments so that commas in template parameter lists and function
     # argument parameter lists don't split arguments in two
     i = 0
-    while i < len(constructor_args):
-      constructor_arg = constructor_args[i]
-      while (constructor_arg.count('<') > constructor_arg.count('>') or
-             constructor_arg.count('(') > constructor_arg.count(')')):
-        constructor_arg += ',' + constructor_args[i + 1]
-        del constructor_args[i + 1]
-      constructor_args[i] = constructor_arg
-      i += 1
+
+    try:
+      while i < len(constructor_args):
+        constructor_arg = constructor_args[i]
+        while (constructor_arg.count('<') > constructor_arg.count('>') or
+              constructor_arg.count('(') > constructor_arg.count(')')):
+          constructor_arg += ',' + constructor_args[i + 1]
+          del constructor_args[i + 1]
+        constructor_args[i] = constructor_arg
+        i += 1
+    except Exception as e:
+      error(filename, linenum, 'runtime/explicit', 5,
+              'A RA error')
 
     defaulted_args = [arg for arg in constructor_args if '=' in arg]
     noarg_constructor = (not constructor_args or  # empty arg list
