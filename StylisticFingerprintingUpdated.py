@@ -1,3 +1,4 @@
+# Search for _valid_code_lines_count
 #!/usr/bin/env python
 #
 # Copyright (c) 2009 Google Inc. All rights reserved.
@@ -6731,7 +6732,7 @@ def ProcessFile(filename, vlevel, extra_check_functions=[]):
   _valid_file_ex = True # added by Robert
   if filename != '-' and file_extension not in _valid_extensions:
     sys.stderr.write('Ignoring %s; not a valid file name '
-                     '(%s)\n' % (filename, ', '.join(_valid_extensions)))
+                    '(%s)\n' % (filename.decode('utf-8'), ', '.join(_valid_extensions)))
     _valid_file_ex = False #added by Robert
   else:
     ProcessFileData(filename, file_extension, lines, Error,
@@ -6755,7 +6756,7 @@ def ProcessFile(filename, vlevel, extra_check_functions=[]):
         Error(filename, linenum, 'whitespace/newline', 1,
               'Unexpected \\r (^M) found; better to use only \\n')
 
-  sys.stderr.write('Done processing %s\n' % filename)
+  sys.stderr.write('Done processing %s\n' % filename.decode('utf-8'))
   _RestoreFilters()
 
 
